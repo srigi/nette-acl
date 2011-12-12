@@ -7,7 +7,7 @@ use Nette\Diagnostics\Debugger,
 
 
 // Load Nette Framework
-require __DIR__ . '/../../../Nette/loader.php';
+require LIBS_DIR . '/Nette/loader.php';
 
 
 // Enable Nette Debugger for error visualisation & logging
@@ -22,7 +22,8 @@ $configurator->setCacheDirectory(__DIR__ . '/../temp');
 
 // Enable RobotLoader - this will load all classes automatically
 $configurator->createRobotLoader()
-	->addDirectory(__DIR__)
+	->addDirectory(APP_DIR)
+	->addDirectory(LIBS_DIR)
 	->register();
 
 // Create Dependency Injection container from config.neon file
