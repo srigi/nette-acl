@@ -6,6 +6,24 @@ common:
 	php:
 		date.timezone: Europe/Prague
 
-production < common:
+	services:
+		database:
+			class: Nette\Database\Connection
+			arguments: ['%database.driver%:host=%database.host%;dbname=%database.dbname%', %database.user%, %database.password%, ..., Nette\Database\Reflection\DiscoveredReflection()]
+			setup:
+				- setCacheStorage()
+
+
 
 development < common:
+	parameters:
+		database:
+			driver	: mysql
+			host	: localhost
+			dbname	: nette_acl
+			user	: php
+			password: php
+
+
+
+production < common:
