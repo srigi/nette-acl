@@ -46,5 +46,12 @@ if (function_exists('apache_get_modules') && in_array('mod_rewrite', apache_get_
 }
 
 
+// Setup session
+$session = $container->session;
+$session->setExpiration('+ 30 days');
+$session->setSavePath(__DIR__ . '/../temp/sessions');
+$session->start();
+
+
 // Run the application!
 $container->application->run();
