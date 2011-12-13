@@ -22,8 +22,6 @@
 				{if $user->isLoggedIn()}
 					<li><a n:href="User:">{$user->getIdentity()->name}</a></li>
 					<li><a n:href="Default:logout">logout</a></li>
-				{else}
-					<li><a n:href="Default:login">login</a></li>
 				{/if}
 			</ul>
 		</div>
