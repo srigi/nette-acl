@@ -9,16 +9,14 @@ common:
 	services:
 		database:
 			class: Nette\Database\Connection
-			arguments: ['%database.driver%:host=%database.host%;dbname=%database.dbname%', %database.user%, %database.password%, ..., Nette\Database\Reflection\DiscoveredReflection()]
-			setup:
-				- setCacheStorage()
+			arguments: ['%database.driver%:host=%database.host%;dbname=%database.dbname%', %database.user%, %database.password%]
 
 		authorizator:
 			class: AclProj\Security\Acl
 
 		authenticator:
 			class: AclProj\Security\Authenticator
-			arguments: ['@database', '%security.salt%']
+			arguments: [@database, %security.salt%]
 
 
 
