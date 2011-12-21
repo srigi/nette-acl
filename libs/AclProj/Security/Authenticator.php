@@ -34,10 +34,10 @@ class Authenticator extends Object implements IAuthenticator
 			->fetch();
 
 		if (!$user) {
-			throw new AuthenticationException("Užívateľ s login emailom '$email' sa nenašiel!", self::IDENTITY_NOT_FOUND);
+			throw new AuthenticationException('User not found', self::IDENTITY_NOT_FOUND);
 		}
 		if ($user->password != $password) {
-			throw new AuthenticationException('Zadali ste nesprávne heslo!', self::INVALID_CREDENTIAL);
+			throw new AuthenticationException('Wrong password', self::INVALID_CREDENTIAL);
 		}
 
 		$identity = new Identity($user->id, $user->role);
