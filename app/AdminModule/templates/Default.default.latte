@@ -2,13 +2,13 @@
 
 
 {block navigation}
-	<ul>
-		<li><a n:href="Page:">Pages administration</a></li>
-		<li><a n:href="User:">Users administration</a></li>
-	</ul>
+	{include '@navigation.latte'}
 {/block}
 
 
+{block sidebar}
+	{include '@sidebar.latte'}
+{/block}
 
 
 {block content}
