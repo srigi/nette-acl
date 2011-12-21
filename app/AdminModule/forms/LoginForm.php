@@ -10,7 +10,7 @@ use Nette\Application\UI\Form as AppForm,
 class LoginForm extends AppForm
 {
 
-	public function __construct($parent, $name)
+	public function __construct(Nette\IComponentContainer $parent = NULL, $name = NULL)
 	{
 		parent::__construct($parent, $name);
 
@@ -24,17 +24,17 @@ class LoginForm extends AppForm
 				->addRule(Form::FILLED, 'Enter password');
 
 		$this->addSubmit('send', 'Log in!');
-		$this->onSubmit[] = array($this, 'formSubmited');
+		$this->onSuccess[] = array($this, 'processSuccess');
 	}
 
 
-	public function formSubmited($form)
+	public function processSuccess(AppForm $form)
 	{
 		try {
 			$user = $this->presenter->user;
 			$user->login($form['login']->value, $form['password']->value);
 
-			$this->resenter->application->restoreRequest($this->presenter->backlink);
+			$this->presenter->application->restoreRequest($this->presenter->backlink);
 			$this->presenter->redirect('Default:default');
 		} catch (AuthenticationException $e) {
 			$form->addError($e->getMessage());

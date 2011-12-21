@@ -14,7 +14,7 @@ final class AuthPresenter extends BasePresenter
 
 	protected function createComponentLoginForm($name)
 	{
-		$form = new LoginForm($this, $name);
+		return new LoginForm();
 	}
 
 }
