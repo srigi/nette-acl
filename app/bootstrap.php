@@ -18,7 +18,7 @@ Debugger::enable();
 
 // Configure application
 $configurator = new Nette\Config\Configurator;
-$configurator->setCacheDirectory(__DIR__ . '/../temp');
+$configurator->setTempDirectory(__DIR__ . '/../temp');
 
 // Enable RobotLoader - this will load all classes automatically
 $configurator->createRobotLoader()
@@ -27,23 +27,19 @@ $configurator->createRobotLoader()
 	->register();
 
 // Create Dependency Injection container from config.neon file
-$container = $configurator->loadConfig(__DIR__ . '/config.neon');
+$configurator->addConfig(__DIR__ . '/config.neon');
+$container = $configurator->createContainer();
 
 
 // Setup router using mod_rewrite detection
-if (function_exists('apache_get_modules') && in_array('mod_rewrite', apache_get_modules())) {
-	$container->router = $router = new RouteList;
-	$router[] = new Route('index.php', 'Front:Default:default', Route::ONE_WAY);
+$container->router = $router = new RouteList;
+$router[] = new Route('index.php', 'Front:Default:default', Route::ONE_WAY);
 
-	$router[] = $adminRouter = new RouteList('Admin');
-	$adminRouter[] = new Route('admin/<presenter>/<action>', 'Default:default');
+$router[] = $adminRouter = new RouteList('Admin');
+$adminRouter[] = new Route('admin/<presenter>/<action>', 'Default:default');
 
-	$router[] = $frontRouter = new RouteList('Front');
-	$frontRouter[] = new Route('<presenter>/<action>[/<id>]', 'Default:default');
-
-} else {
-	$container->router = new SimpleRouter('Front:Default:default');
-}
+$router[] = $frontRouter = new RouteList('Front');
+$frontRouter[] = new Route('<presenter>/<action>[/<id>]', 'Default:default');
 
 
 // Setup session
@@ -53,5 +49,8 @@ $session->setSavePath(__DIR__ . '/../temp/sessions');
 $session->start();
 
 
-// Run the application!
-$container->application->run();
+// Configure and run the application!
+$application = $container->application;
+//$application->catchExceptions = TRUE;
+$application->errorPresenter = 'Error';
+$application->run();
