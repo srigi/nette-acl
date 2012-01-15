@@ -22,7 +22,7 @@ abstract class SecuredPresenter extends BasePresenter
 
 		} else {
 			if (!$this->user->isAllowed($this->name, $this->action)) {
-				$this->flashMessage('Access diened. You don\'t have permissions to view that page.', 'danger');
+				$this->flashMessage('Access denied. You don\'t have permissions to view that page.', 'danger');
 				$this->redirect('Default:');
 			}
 		}
