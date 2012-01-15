@@ -21,7 +21,7 @@
 			<ul class="nav secondary-nav">
 				{if $user->isLoggedIn()}
 					<li><a n:href="User:">{$user->getIdentity()->name}</a></li>
-					<li><a n:href="Default:logout">logout</a></li>
+					<li><a n:href="Auth:logout">logout</a></li>
 				{/if}
 			</ul>
 		</div>

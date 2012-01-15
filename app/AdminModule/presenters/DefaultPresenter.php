@@ -15,7 +15,7 @@ final class DefaultPresenter extends BasePresenter
 		if (!$this->user->isLoggedIn()) {
 			if ($this->user->getLogoutReason() === User::INACTIVITY) {
 				$this->flashMessage('Session timeout, you have been logged out', 'danger');
-			}
+}
 
 			$backlink = $this->getApplication()->storeRequest();
 			$this->redirect('Auth:login', array('backlink' => $backlink));
@@ -26,13 +26,6 @@ final class DefaultPresenter extends BasePresenter
 				$this->redirect('Auth:login');
 			}
 		}
-	}
-
-
-	public function actionLogout()
-	{
-		$this->user->logOut();
-		$this->redirect('Auth:login');
 	}
 
 }
