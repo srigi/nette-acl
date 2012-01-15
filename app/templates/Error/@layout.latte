@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="robots" content="noindex">
+	<title>{ifset #title}{include #title} :: {/ifset}nette ACL</title>
+	<style>
+		body	{ background:white; color:#333; margin:100px auto; width:500px; }
+		h1		{ font:bold 47px/1.5 sans-serif; margin:0.6em 0; }
+		p		{ font:21px/1.5 Georgia,serif; margin:1.5em 0; }
+		small	{ color:gray; font-size:70%; }
+	</style>
+</head>
+<body>
+	<script> document.body.className += ' js' </script>
+	<div n:foreach="$flashes as $flash" class="flash {$flash->type}">{$flash->message}</div>
+	{include #content}
+</body>
+</html>
