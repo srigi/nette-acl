@@ -10,47 +10,42 @@ use Nette\Diagnostics\Debugger,
 require LIBS_DIR . '/Nette/loader.php';
 
 
-// Enable Nette Debugger for error visualisation & logging
-Debugger::$strictMode = TRUE;
-Debugger::$logDirectory = __DIR__ . '/../log';
-Debugger::enable();
-
-
 // Configure application
 $configurator = new Nette\Config\Configurator;
-$configurator->setTempDirectory(__DIR__ . '/../temp');
+
+
+// Enable Nette Debugger for error visualisation & logging
+//$configurator->setProductionMode($configurator::AUTO);
+$configurator->enableDebugger(__DIR__ . '/../log');
+
 
 // Enable RobotLoader - this will load all classes automatically
+$configurator->setTempDirectory(__DIR__ . '/../temp');
 $configurator->createRobotLoader()
 	->addDirectory(APP_DIR)
 	->addDirectory(LIBS_DIR)
 	->register();
 
+
 // Create Dependency Injection container from config.neon file
-$configurator->addConfig(__DIR__ . '/config.neon');
+$configurator->addConfig(__DIR__ . '/config/config.neon');
 $container = $configurator->createContainer();
 
 
 // Setup router using mod_rewrite detection
-$container->router = $router = new RouteList;
-$router[] = new Route('index.php', 'Front:Default:default', Route::ONE_WAY);
+if (function_exists('apache_get_modules') && in_array('mod_rewrite', apache_get_modules())) {
+	$container->router[] = new Route('index.php', 'Front:Default:default', Route::ONE_WAY);
 
-$router[] = $adminRouter = new RouteList('Admin');
-$adminRouter[] = new Route('admin/<presenter>/<action>', 'Default:default');
+	$container->router[] = $adminRouter = new RouteList('Admin');
+	$adminRouter[] = new Route('admin/<presenter>/<action>[/<id>]', 'Default:default');
 
-$router[] = $frontRouter = new RouteList('Front');
-$frontRouter[] = new Route('<presenter>/<action>[/<id>]', 'Default:default');
+	$container->router[] = $frontRouter = new RouteList('Front');
+	$frontRouter[] = new Route('<presenter>/<action>[/<id>]', 'Default:default');
 
-
-// Setup session
-$session = $container->session;
-$session->setExpiration('+ 30 days');
-$session->setSavePath(__DIR__ . '/../temp/sessions');
-$session->start();
+} else {
+	$container->router = new SimpleRouter('Front:Default:default');
+}
 
 
 // Configure and run the application!
-$application = $container->application;
-//$application->catchExceptions = TRUE;
-$application->errorPresenter = 'Error';
-$application->run();
+$container->application->run();

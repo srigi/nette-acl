@@ -7,6 +7,20 @@ common:
 		date.timezone		: Europe/Bratislava
 		session.save_path	: "%tempDir%/sessions"
 
+	nette:
+		session:
+			autoStart: smart
+			expiration: +10days
+
+		application:
+			debugger: true
+			#catchExceptions: true
+			errorPresenter: Error
+
+		security:
+			debugger: true
+			#frames: ... # hodnota hlavičky X-Frame-Options
+
 	services:
 		database:
 			class: Nette\Database\Connection(
@@ -21,12 +35,13 @@ common:
 			class: AclProj\Security\Acl
 
 		authenticator:
-			class: AclProj\Security\Authenticator(
-				@database
-				%security.salt%
-			)
+			class: AclProj\Security\Authenticator(@database, %security.salt%)
 
 	factories:
+
+
+	parameters:
+		authAction: Auth:login
 
 
 
