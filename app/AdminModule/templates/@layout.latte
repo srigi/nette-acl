@@ -1,52 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="utf-8">
-	<title>{ifset #title}{include #title} :: {/ifset}nette ACL</title>
-	<link rel="stylesheet" href="http://twitter.github.com/bootstrap/1.4.0/bootstrap.min.css">
-	<style>
-		body { padding-top:60px; }
-	</style>
-</head>
-<body>
-<div class="container">
-
-	<header class="topbar">
-		<div class="topbar-inner">
-		<div class="container">
-			<h3><a n:href="Default:">nette ACL</a></h3>
-
-			{block navigation}{/block}
-
-			<ul class="nav secondary-nav">
-				{if $user->isLoggedIn()}
-					<li><a n:href="User:">{$user->getIdentity()->name}</a></li>
-					<li><a n:href="Auth:logout">logout</a></li>
-				{/if}
-			</ul>
-		</div>
-		</div><!-- .topbar-inner -->
-	</header>
+{layout '@_wrap.latte'}
 
 
+{block main}
 
 	<div class="row">
-		<div id="sidebar" class="span4">
-			{block sidebar}Lorem ipsum dolor sit amet{/block}
-		</div><!-- #sidebar -->
-
-		<div id="content" class="span12">
+		<div id="content" class="span9">
 			<div n:foreach="$flashes as $flash" class="alert-message {$flash->type}"><p>{$flash->message}</p></div>
 			{include #content}
 		</div><!-- #content -->
+
+		<div id="sidebar" class="span3">
+			{block sidebar}Lorem ipsum dolor sit amet{/block}
+		</div><!-- #sidebar -->
 	</div>
 
-
-
-	<footer class="footer">
-		<p>Copyright &copy; 2011 Nette Foundation</p>
-	</footer>
-
-</div>
-</body>
-</html>
+{/block}

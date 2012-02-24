@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="robots" content="{$robots}" n:ifset="$robots">
+	<meta name="description" content="">
+	<meta name="author" content="">
+
+	<title>{ifset #title}{include #title} :: {/ifset}HTML Midor</title>
+
+	<link rel="stylesheet" href="{$basePath}/css/bootstrap.min.css">
+	<link rel="stylesheet" href="{$basePath}/css/bootstrap-responsive.min.css">
+	<style>
+		body { padding-top:60px; }
+		footer { border-top:1px solid #ddd; padding:2em 1em; text-align:center; }
+	</style>
+
+	<script src="{$basePath}/js/modernizr.min.js"></script>
+</head>
+<body>
+
+	<div class="navbar navbar-fixed-top">
+	<div class="navbar-inner">
+		<div class="container">
+			<a class="brand" n:href="Default:">nette ACL</a>
+
+			{block navigation}{/block}
+
+			<ul class="nav pull-right">
+				{if $user->isLoggedIn()}
+					<li><a n:href="User:">{$user->getIdentity()->name}</a></li>
+					<li><a n:href="Auth:logout">logout</a></li>
+				{/if}
+			</ul>
+		</div>
+	</div>
+	</div><!-- .navbar -->
+
+
+	<div class="container">
+		<div id="main" role="main">
+			{include #main}
+		</div><!-- #main -->
+
+
+		<footer>
+			<p>2012 &copy; <a href="http://twitter.com/srigi">srigi</a></p>
+		</footer>
+	</div> <!-- .container -->
+
+</body>
+</html>
