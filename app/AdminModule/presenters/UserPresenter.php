@@ -3,7 +3,7 @@
 namespace AdminModule;
 
 
-final class UserPresenter extends SecuredPresenter
+final class UserPresenter extends BasePresenter
 {
 
 }

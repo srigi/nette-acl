@@ -18,10 +18,12 @@ class Acl extends Permission
 
 		// resources
 		$this->addResource('Admin:Default');
+		$this->addResource('Admin:Auth');
 		$this->addResource('Admin:Page');
 		$this->addResource('Admin:User');
 
 		// privileges
+		$this->allow('guest',	'Admin:Auth',		Permission::ALL);
 		$this->allow('member',	'Admin:Default',	Permission::ALL);
 		$this->allow('editor',	'Admin:Page',		Permission::ALL);
 		$this->allow('admin',	Permission::ALL,	Permission::ALL);
