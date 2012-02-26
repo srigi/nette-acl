@@ -10,7 +10,7 @@ common:
 	nette:
 		session:
 			autoStart: smart
-			expiration: +10days
+			expiration: +180days
 
 		application:
 			debugger: true
