@@ -3,15 +3,12 @@
 
 {block main}
 
-	<div class="row">
-		<div id="content" class="span9">
-			<div n:foreach="$flashes as $flash" class="alert-message {$flash->type}"><p>{$flash->message}</p></div>
-			{include #content}
-		</div><!-- #content -->
+	<div id="content" class="span9">
+		<div n:foreach="$flashes as $flash" class="alert alert-block alert-{$flash->type}"><p>{$flash->message}</p></div>
+		{include #content}
+	</div><!-- #content -->
 
-		<div id="sidebar" class="span3">
-			{block sidebar}Lorem ipsum dolor sit amet{/block}
-		</div><!-- #sidebar -->
-	</div>
 
-{/block}
+	<div id="sidebar" class="span3">
+		{block sidebar}Lorem ipsum dolor sit amet{/block}
+	</div><!-- #sidebar -->

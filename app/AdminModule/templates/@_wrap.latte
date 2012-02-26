@@ -10,10 +10,7 @@
 
 	<link rel="stylesheet" href="{$basePath}/css/bootstrap.min.css">
 	<link rel="stylesheet" href="{$basePath}/css/bootstrap-responsive.min.css">
-	<style>
-		body { padding-top:60px; }
-		footer { border-top:1px solid #ddd; padding:2em 1em; text-align:center; }
-	</style>
+	<link rel="stylesheet" href="{$basePath}/css/main.css">
 
 	<script src="{$basePath}/js/modernizr.min.js"></script>
 </head>
@@ -26,19 +23,20 @@
 
 			{block navigation}{/block}
 
-			<ul class="nav pull-right">
-				{if $user->isLoggedIn()}
+			{if $user->isLoggedIn()}
+				<ul class="nav pull-right">
 					<li><a n:href="User:">{$user->getIdentity()->name}</a></li>
 					<li><a n:href="Auth:logout">logout</a></li>
-				{/if}
-			</ul>
+				</ul>
+			{/if}
 		</div>
 	</div>
 	</div><!-- .navbar -->
 
 
+
 	<div class="container">
-		<div id="main" role="main">
+		<div id="main" role="main" class="row">
 			{include #main}
 		</div><!-- #main -->
 
