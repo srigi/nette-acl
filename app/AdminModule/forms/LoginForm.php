@@ -16,7 +16,6 @@ class LoginForm extends AppForm
 		parent::__construct($parent, $name);
 
 		$this->onSuccess[] = array($this, 'processSuccess');
-		$this->addProtection('Token timeout. Please send form again.');
 
 		$this->addText('email')
 			->addRule(Form::FILLED, 'Enter login email')
@@ -42,7 +41,7 @@ class LoginForm extends AppForm
 		}
 
 		try {
-			$user->login($form['login']->value, $form['password']->value);
+			$user->login($form['email']->value, $form['password']->value);
 		} catch (AuthenticationException $e) {
 			$form->addError($e->getMessage());
 			return;
