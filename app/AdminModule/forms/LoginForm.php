@@ -18,32 +18,16 @@ class LoginForm extends AppForm
 		$this->onSuccess[] = array($this, 'processSuccess');
 		$this->addProtection('Token timeout. Please send form again.');
 
-		$this->addText('login')
-				->addRule(Form::FILLED, 'Enter login email')
-				->addRule(Form::EMAIL, 'Filled value is not valid email');
+		$this->addText('email')
+			->addRule(Form::FILLED, 'Enter login email')
+			->addRule(Form::EMAIL, 'Filled value is not valid email');
 
 		$this->addPassword('password')
-				->addRule(Form::FILLED, 'Enter password');
+			->addRule(Form::FILLED, 'Enter password');
 
-		$this->addCheckbox('remember', 'remember');
+		$this->addCheckbox('remember');
 
 		$this->addSubmit('send', 'Log in!');
-
-
-		$this->renderer->wrappers['controls']['container'] = NULL;
-
-		$this->getElementPrototype()->class('well form-inline');
-
-		$this['login']->getControlPrototype()
-			->class('input')
-			->placeholder('email');
-
-		$this['password']->getControlPrototype()
-			->class('input')
-			->placeholder('password');
-
-		$this['send']->getControlPrototype()
-			->class('btn pull-right');
 	}
 
 

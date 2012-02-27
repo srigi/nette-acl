@@ -5,6 +5,21 @@
 
 	<div class="loginform-module row">
 		<div class="span8 offset2">
- 			{control loginForm}
+ 			{form loginForm class => 'well form-inline'}
+				<ul class="errors" n:if="$form->hasErrors()">
+					<li n:foreach="$form->errors as $error">{$error}</li>
+				</ul>
+
+				{input email placeholder => 'email'}
+				{input email placeholder => 'password'}
+
+				{label remember class => 'checkbox'}
+					{input remember}
+					remember
+				{/label remember}
+
+
+				{input send class => 'btn pull-right'}
+ 			{/form loginForm}
 		</div>
     </div>
