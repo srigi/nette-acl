@@ -2,26 +2,47 @@
 
 namespace AdminModule;
 
-use AdminModule\Forms\LoginForm;
+use Nette\Application\UI\Form;
+use Nette\Security\AuthenticationException;
 
-
-final class AuthPresenter extends BasePresenter
+class AuthPresenter extends BasePresenter
 {
-
 	/** @persistent */
-	public $backlink = '';
+	public $backlink;
 
 
-	public function actionLogout()
+	/**
+	 * Login form factory
+	 * @return Nette\Application\UI\Form
+	 */
+	protected function createComponentLoginForm()
 	{
-		$this->user->logOut();
-		$this->redirect('login');
+		$form = new Form;
+		$form->addText('name', 'Name:')
+			->addRule(Form::FILLED, 'Enter login');
+		$form->addPassword('password', 'Password:')
+			->addRule(Form::FILLED, 'Enter password');
+		$form->addSubmit('send', 'Log in');
+
+		$form->onSuccess[] = $this->processLoginForm;
+		return $form;
 	}
 
 
-	protected function createComponentLoginForm($name)
+	/**
+	 * Process login form and login user
+	 */
+	public function processLoginForm($form)
 	{
-		return new LoginForm();
+		$values = $form->getValues(TRUE);
+		try {
+			$this->user->login($values['name'], $values['password']);
+			$this->restoreRequest($this->backlink);
+			$this->redirect('Default:default');
+
+		} catch (AuthenticationException $e) {
+			$form->addError($e->getMessage());
+		}
 	}
 
 }

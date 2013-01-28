@@ -1,0 +1,38 @@
+common:
+	parameters:
+		database:
+			driver: mysql
+			host: localhost
+			dbname: nette_acl
+			user: root # doplnte meno
+			password: # doplnte heslo
+
+	php:
+		date.timezone: Europe/Prague
+
+	services:
+		database:
+			class: Nette\Database\Connection
+			arguments: [
+				'%database.driver%:host=%database.host%;dbname=%database.dbname%',
+				%database.user%,
+				%database.password%
+			]
+
+		authenticator: AclProj\Security\Authenticator
+
+		authorizator:	
+			class: Nette\Security\Permission
+			setup:
+				- addRole('guest')
+				- addRole('editor')
+				- addRole('admin')
+				- addResource('Admin:Default')
+				- addResource('Admin:Page')
+				- allow('editor', 'Admin:Default')
+				- allow('admin')
+
+
+production < common:
+
+development < common:

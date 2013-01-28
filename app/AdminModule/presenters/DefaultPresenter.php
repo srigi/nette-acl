@@ -2,8 +2,9 @@
 
 namespace AdminModule;
 
-
-final class DefaultPresenter extends BasePresenter
+class DefaultPresenter extends BasePresenter
 {
+
+
 
 }

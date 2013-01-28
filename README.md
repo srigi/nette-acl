@@ -9,16 +9,6 @@ The most simple application in Nette Framework to demonstrate ACL authorization 
 
 To test application, navigate to http://APPLICATION_URL/admin
 
-password and logins:
-- admin@exmaple.com		admin
-- betty@example.com		pokus
-- brown.p@example.com	pokus
-
-Password are set for security.salt configured in `app/config.neon`. If you change this salt, you must regenerate passwords manualy and store them to DB. Formula for generating on console is:
-
-`$ php -a`
-`Interactive shell`
-` `
-`php > echo sha1($password . $salt);`
-
-Live demo at http://nette.srigi.sk/acl
+Password and logins:
+- admin	- admin
+- editor - editor

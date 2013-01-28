@@ -2,49 +2,45 @@
 
 namespace AclProj\Security;
 
-use	Nette\Object,
-	Nette\Database\Connection,
-	Nette\Security\Identity,
-	Nette\Security\IAuthenticator,
-	Nette\Security\AuthenticationException;
+use Nette;
+use Nette\Security\Identity;
+use Nette\Security\AuthenticationException;
 
-
-class Authenticator extends Object implements IAuthenticator
+class Authenticator extends Nette\Object implements Nette\Security\IAuthenticator
 {
-
-	private $dbConnection;
-	private $passwordSalt;
-
-
-	public function __construct(Connection $dbConnection, $salt)
-	{
-		$this->dbConnection = $dbConnection;
-		$this->passwordSalt = $salt;
-	}
+	/** @var Nette\Database\Connection */
+    private $database;
 
 
-	public function authenticate(array $credentials)
-	{
-		$email    = $credentials[self::USERNAME];
-		$password = sha1($credentials[self::PASSWORD] . $this->passwordSalt);
+	/**
+	 * @param Nette\Database\Connection
+	 */
+    public function __construct(Nette\Database\Connection $database)
+    {
+        $this->database = $database;
+    }
 
-		$user = $this->dbConnection
-			->table('user')
-			->where('email=?', array($email))
-			->fetch();
 
-		if (!$user) {
-			throw new AuthenticationException('User not found', self::IDENTITY_NOT_FOUND);
-		}
-		if ($user->password != $password) {
-			throw new AuthenticationException('Wrong password', self::INVALID_CREDENTIAL);
-		}
+	/**
+	 * Performas an authentication
+	 * @param array
+	 * @return Nette\Security\Identity
+	 */
+    public function authenticate(array $credentials)
+    {
+		list($login, $password) = $credentials;
+        $row = $this->database->table('user')->where('login', $login)->fetch();
 
-		$identity = new Identity($user->id, $user->role);
-		$identity->name = $user->name;
-		$identity->email = $user->email;
+        if (!$row) {
+            throw new AuthenticationException('The login is incorrect.', self::IDENTITY_NOT_FOUND);
+        }
 
-		return $identity;
-	}
+        if ($row->password !== sha1($password)) {
+            throw new AuthenticationException('Wrong password', self::INVALID_CREDENTIAL);
+        }
+
+		unset($row->password);
+        return new Identity($row->id, $row->role, $row->toArray());
+    }
 
 }
