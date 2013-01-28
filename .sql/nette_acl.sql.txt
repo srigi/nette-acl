@@ -8,4 +8,4 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`login`, `password`, `role`) VALUES
 ('admin', sha1('admin'), 'admin'),
-('editor', 'sha1(editor'), 'editor');
+('editor', sha1('editor'), 'editor');
