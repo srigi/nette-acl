@@ -2,8 +2,7 @@
 
 namespace AdminModule;
 
-
-final class PagePresenter extends BasePresenter
+class PagePresenter extends DefaultPresenter
 {
 
 }

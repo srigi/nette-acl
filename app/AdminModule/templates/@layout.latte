@@ -1,14 +1,47 @@
-{layout '@_wrap.latte'}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Modules demo</title>
+	<link rel="stylesheet" media="screen" href="{$basePath}/css/site.css">
+</head>
+
+<body>
+	<h1>Modules demo</h1>
+
+	<div n:foreach="$flashes as $flash" class="flash flash-{$flash->type}">
+		<p>{$flash->message}</p>
+	</div>
+
+	{if $user->isLoggedIn()}
+		{if $user->isAllowed('Admin:Page')}
+			<a n:href="Page:">Page</a> (can see only admin) |
+		{/if}
+		<a n:href="Page:">Page</a> (can see everyone) |
+		logged as <em>{$user->getIdentity()->login}</em> (<a n:href="logout!">logout</a>)
+
+	{else}
+		<p>You are not logged in.</p>
+	{/if}
+
+	<div id="path">
+		<span id="module">{$moduleName}<span id="presenter">{$presenterName}:<span id="view">{$viewName}</span></span></span>
+	</div>
+
+	<fieldset>
+		<legend>This is layout template <code>{$template->getFile() |replace:$root}</code></legend>
+
+		<fieldset>
+			<legend>This is content block template <code>{$presenter->template->getFile() |replace:$root}</code></legend>
+			{include #content}
+		</fieldset>
 
 
-{block main}
-
-	<div id="content" class="span9">
-		<div n:foreach="$flashes as $flash" class="alert alert-block alert-{$flash->type}"><p>{$flash->message}</p></div>
-		{include #content}
-	</div><!-- #content -->
-
-
-	<div id="sidebar" class="span3">
-		{block sidebar}Lorem ipsum dolor sit amet{/block}
-	</div><!-- #sidebar -->
+		<h2>Absolute links</h2>
+		<ul>
+			<li><a n:href=":Front:Default:"><code>:Front:Default:</code></a> - link to presenter <code>Front:Default</code></li>
+			<li><a n:href=":Admin:Default:"><code>:Admin:Default:</code></a> - link to presenter <code>Admin:Default</code></li>
+		</ul>
+	</fieldset>
+</body>
+</html>
